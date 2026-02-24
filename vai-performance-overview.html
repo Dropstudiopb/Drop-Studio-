@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAÏ — 30-Day Performance Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --bone: #EDE8DC;
+    --warm-white: #FAF8F4;
+    --charcoal: #1C1C1A;
+    --soft-black: #2A2A27;
+    --mid-grey: #6B6860;
+    --light-grey: #B8B4AC;
+    --accent-sand: #C4A882;
+    --accent-warm: #8B7355;
+    --accent-terracotta: #A0614A;
+    --success: #5C7A5C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--warm-white);
+    color: var(--charcoal);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196,168,130,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    color: var(--charcoal);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--charcoal); }
+
+  /* SLIDE SYSTEM */
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 80px 80px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    position: relative;
+  }
+
+  .slide.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SLIDE 1 — COVER */
+  #slide-cover {
+    background: var(--charcoal);
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+    opacity: 1;
+    transform: none;
+  }
+
+  .cover-image {
+    background: url('https://vai-wear.com/cdn/shop/files/SABRY112833-copy.jpg?v=1768134038&width=1200') center/cover no-repeat;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--charcoal));
+  }
+
+  .cover-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 80px 80px 60px;
+    position: relative;
+  }
+
+  .cover-tag {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-sand);
+    margin-bottom: 32px;
+  }
+
+  .cover-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--cream);
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: var(--accent-sand);
+  }
+
+  .cover-subtitle {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--light-grey);
+    text-transform: uppercase;
+    margin-bottom: 64px;
+  }
+
+  .cover-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    border-top: 1px solid rgba(196,168,130,0.3);
+    padding-top: 40px;
+  }
+
+  .cover-metric-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .cover-metric-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--cream);
+  }
+
+  .cover-metric-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--light-grey);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-sand);
+    margin-bottom: 16px;
+  }
+
+  .slide-content {
+    max-width: 1100px;
+    width: 100%;
+  }
+
+  .slide-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--soft-black);
+    margin-bottom: 56px;
+    letter-spacing: -0.5px;
+  }
+
+  /* SLIDE 2 — METRICS */
+  #slide-metrics { background: var(--warm-white); }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(196,168,130,0.2);
+  }
+
+  .metric-card {
+    background: var(--warm-white);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .metric-card:hover { background: var(--bone); }
+
+  .metric-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 54px;
+    font-weight: 400;
+    color: var(--charcoal);
+    line-height: 1;
+    counter-reset: none;
+  }
+
+  .metric-number.animated {
+    transition: none;
+  }
+
+  .metric-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-sand);
+  }
+
+  .metric-note {
+    font-size: 13px;
+    color: var(--mid-grey);
+    line-height: 1.6;
+    margin-top: 8px;
+    border-top: 1px solid rgba(196,168,130,0.3);
+    padding-top: 12px;
+  }
+
+  /* SLIDE 3 — CHANNELS */
+  #slide-channels { background: var(--bone); }
+
+  .channels-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    background: rgba(196,168,130,0.25);
+  }
+
+  .channel-card {
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .channel-card.dark {
+    background: var(--charcoal);
+  }
+
+  .channel-card.light {
+    background: var(--warm-white);
+  }
+
+  .channel-tag {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .channel-card.dark .channel-tag { color: var(--accent-sand); }
+  .channel-card.light .channel-tag { color: var(--mid-grey); }
+
+  .channel-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 400;
+  }
+
+  .channel-card.dark .channel-title { color: var(--cream); }
+  .channel-card.light .channel-title { color: var(--soft-black); }
+
+  .channel-stat {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .channel-card.dark .channel-stat { color: var(--accent-sand); }
+  .channel-card.light .channel-stat { color: var(--charcoal); }
+
+  .channel-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 360px;
+  }
+
+  .channel-card.dark .channel-desc { color: var(--light-grey); }
+  .channel-card.light .channel-desc { color: var(--mid-grey); }
+
+  /* SLIDE 4 — BOTTLENECKS */
+  #slide-bottlenecks { background: var(--warm-white); }
+
+  .bottleneck-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(196,168,130,0.3);
+  }
+
+  .bottleneck-card {
+    background: var(--warm-white);
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .bottleneck-icon {
+    width: 48px;
+    height: 2px;
+    background: var(--accent-sand);
+  }
+
+  .bottleneck-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--soft-black);
+  }
+
+  .bottleneck-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bottleneck-items li {
+    font-size: 14px;
+    color: var(--mid-grey);
+    line-height: 1.6;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .bottleneck-items li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent-sand);
+    font-size: 12px;
+  }
+
+  /* SLIDE 5 — CATEGORIES */
+  #slide-categories { background: var(--bone); }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+    cursor: pointer;
+  }
+
+  .category-card:hover { transform: translateY(-8px); }
+
+  .category-image {
+    height: 340px;
+    background-size: cover;
+    background-position: center top;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .category-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,28,26,0.5) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .category-card:hover .category-image::after { opacity: 1; }
+
+  .category-info {
+    background: var(--warm-white);
+    padding: 24px 20px 28px;
+    border-top: 2px solid var(--accent-sand);
+  }
+
+  .category-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--soft-black);
+    margin-bottom: 8px;
+  }
+
+  .category-desc {
+    font-size: 13px;
+    color: var(--mid-grey);
+    line-height: 1.6;
+  }
+
+  /* SLIDE 6 — GROWTH */
+  #slide-growth { background: var(--charcoal); }
+
+  #slide-growth .slide-title {
+    color: var(--cream);
+  }
+
+  #slide-growth .section-label { color: var(--accent-sand); }
+
+  .growth-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--light-grey);
+    line-height: 1.6;
+    max-width: 700px;
+    margin-bottom: 64px;
+    border-left: 2px solid var(--accent-sand);
+    padding-left: 32px;
+  }
+
+  /* CHART */
+  .chart-container {
+    width: 100%;
+    position: relative;
+  }
+
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 32px;
+    height: 200px;
+    padding-bottom: 0;
+    margin-bottom: 16px;
+  }
+
+  .chart-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .chart-bar {
+    width: 100%;
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    transition: height 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+  }
+
+  .chart-bar:hover { opacity: 0.85; }
+
+  .chart-bar-1 { background: var(--mid-grey); height: 0; }
+  .chart-bar-2 { background: var(--accent-sand); height: 0; }
+  .chart-bar-3 { background: var(--accent-warm); height: 0; }
+
+  .bar-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cream);
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.5s 0.8s;
+  }
+
+  .bar-value.show { opacity: 1; }
+
+  .chart-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light-grey);
+    text-align: center;
+  }
+
+  .chart-baseline {
+    height: 1px;
+    background: rgba(196,168,130,0.3);
+    margin-bottom: 0;
+  }
+
+  /* SLIDE 7 — CREATIVE */
+  #slide-creative { background: var(--warm-white); }
+
+  .creative-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: rgba(196,168,130,0.2);
+  }
+
+  .creative-card {
+    background: var(--warm-white);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: background 0.3s;
+  }
+
+  .creative-card:hover { background: var(--bone); }
+
+  .creative-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--accent-sand);
+    letter-spacing: 2px;
+  }
+
+  .creative-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--soft-black);
+  }
+
+  .creative-desc {
+    font-size: 14px;
+    color: var(--mid-grey);
+    line-height: 1.7;
+  }
+
+  /* SLIDE 8 — AD STRUCTURE */
+  #slide-ads { background: var(--bone); }
+
+  .funnel-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .funnel-step {
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    background: var(--bone);
+  }
+
+  .funnel-step::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent-sand);
+    opacity: 0.3;
+  }
+
+  .funnel-step:nth-child(2)::before { opacity: 0.6; }
+  .funnel-step:nth-child(3)::before { opacity: 1; }
+
+  .funnel-step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: rgba(196,168,130,0.3);
+    line-height: 1;
+  }
+
+  .funnel-step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--soft-black);
+    line-height: 1.3;
+  }
+
+  .funnel-step-desc {
+    font-size: 14px;
+    color: var(--mid-grey);
+    line-height: 1.7;
+  }
+
+  /* SLIDE 9 — ACTION PLAN */
+  #slide-action { background: var(--charcoal); }
+  #slide-action .slide-title { color: var(--cream); }
+  #slide-action .section-label { color: var(--accent-sand); }
+
+  .action-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(196,168,130,0.15);
+  }
+
+  .action-card {
+    background: rgba(255,255,255,0.04);
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-top: 2px solid rgba(196,168,130,0.3);
+    transition: background 0.3s;
+  }
+
+  .action-card:hover { background: rgba(255,255,255,0.08); }
+
+  .action-step {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent-sand);
+  }
+
+  .action-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--cream);
+  }
+
+  .action-desc {
+    font-size: 13px;
+    color: var(--light-grey);
+    line-height: 1.7;
+  }
+
+  .action-note {
+    margin-top: 40px;
+    padding: 28px 36px;
+    border: 1px solid rgba(196,168,130,0.25);
+    background: rgba(196,168,130,0.05);
+  }
+
+  .action-note p {
+    font-size: 14px;
+    color: var(--light-grey);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .action-note strong {
+    color: var(--accent-sand);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  /* SLIDE 10 — CONCLUSION */
+  #slide-end {
+    background: var(--warm-white);
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 80px;
+  }
+
+  .end-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    font-weight: 300;
+    letter-spacing: 16px;
+    color: var(--charcoal);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .end-divider {
+    width: 80px;
+    height: 1px;
+    background: var(--accent-sand);
+    margin: 0 auto 32px;
+  }
+
+  .end-subtitle {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    margin-bottom: 64px;
+  }
+
+  .end-projection {
+    display: flex;
+    gap: 64px;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 64px;
+  }
+
+  .proj-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .proj-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--charcoal);
+  }
+
+  .proj-num.highlight { color: var(--accent-warm); }
+
+  .proj-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+  }
+
+  .proj-arrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    color: var(--accent-sand);
+    padding-bottom: 12px;
+  }
+
+  .end-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mid-grey);
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--accent-sand);
+    z-index: 200;
+    transition: width 0.3s ease;
+  }
+
+  /* SECTION DIVIDERS */
+  .slide + .slide {
+    border-top: 1px solid rgba(196,168,130,0.15);
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-hint span {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-sand);
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent-sand), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  @media (max-width: 768px) {
+    #slide-cover { grid-template-columns: 1fr; }
+    .cover-image { display: none; }
+    .metrics-grid, .channels-grid, .categories-grid, .creative-grid, .funnel-steps, .action-grid, .bottleneck-grid { grid-template-columns: 1fr; }
+    .slide { padding: 100px 24px 60px; }
+    .slide-title { font-size: 36px; }
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav>
+  <div class="nav-logo">VAÏ</div>
+  <ul class="nav-links">
+    <li><a href="#slide-cover">Overview</a></li>
+    <li><a href="#slide-metrics">Metrics</a></li>
+    <li><a href="#slide-categories">Categories</a></li>
+    <li><a href="#slide-growth">Growth</a></li>
+    <li><a href="#slide-action">Action Plan</a></li>
+  </ul>
+</nav>
+
+<!-- SLIDE 1 — COVER -->
+<section id="slide-cover" class="slide">
+  <div class="cover-image"></div>
+  <div class="cover-content">
+    <p class="cover-tag">30-Day Performance Overview</p>
+    <h1 class="cover-title">VAÏ<br><em>Performance</em><br>Report</h1>
+    <p class="cover-subtitle">Winter Edit 2026 — Launch Analysis</p>
+    <div class="cover-metrics">
+      <div class="cover-metric-item">
+        <span class="cover-metric-num">1,219</span>
+        <span class="cover-metric-label">Sessions</span>
+      </div>
+      <div class="cover-metric-item">
+        <span class="cover-metric-num">1.45×</span>
+        <span class="cover-metric-label">ROAS</span>
+      </div>
+      <div class="cover-metric-item">
+        <span class="cover-metric-num">20,300</span>
+        <span class="cover-metric-label">EGP Revenue</span>
+      </div>
+      <div class="cover-metric-item">
+        <span class="cover-metric-num">+532%</span>
+        <span class="cover-metric-label">Traffic Growth</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span></div>
+</section>
+
+<!-- SLIDE 2 — METRICS -->
+<section id="slide-metrics" class="slide">
+  <div class="slide-content">
+    <p class="section-label">01 — Quick Metrics Snapshot</p>
+    <h2 class="slide-title">The Numbers</h2>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-number" data-target="1219">0</div>
+        <div class="metric-label">Sessions</div>
+        <p class="metric-note">Traffic rose +532%. Awareness is working — the top of funnel is strong.</p>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number" data-target="11">0</div>
+        <div class="metric-label">Orders</div>
+        <p class="metric-note">Conversion at 0.9% — needs uplift via product pages and social proof.</p>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number" data-prefix="EGP ">20,300</div>
+        <div class="metric-label">Total Sales</div>
+        <p class="metric-note">Ad spend EGP 13,800 generating EGP 20,000 in tracked revenue.</p>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number" data-suffix="×">1.45</div>
+        <div class="metric-label">ROAS</div>
+        <p class="metric-note">Positive signal at launch phase. Clear path to 3× with optimisations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — CHANNELS -->
+<section id="slide-channels" class="slide">
+  <div class="slide-content">
+    <p class="section-label">02 — Channels & Attention</p>
+    <h2 class="slide-title">Where We Win</h2>
+    <div class="channels-grid">
+      <div class="channel-card dark">
+        <span class="channel-tag">Organic</span>
+        <h3 class="channel-title">Instagram Momentum</h3>
+        <div class="channel-stat">44,148</div>
+        <p class="channel-desc">View reach with 175 link clicks — high top-of-funnel engagement. The brand has natural pull. Organic storytelling is the core asset to amplify.</p>
+      </div>
+      <div class="channel-card light">
+        <span class="channel-tag">Paid</span>
+        <h3 class="channel-title">Meta Ads — Needs Structure</h3>
+        <div class="channel-stat">1.45×</div>
+        <p class="channel-desc">Meta ads drove traffic but remain unstable. Creative fatigue combined with pricing and stock constraints reduce efficiency. Campaigns need clear SKU-focused structure and retargeting funnels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — BOTTLENECKS -->
+<section id="slide-bottlenecks" class="slide">
+  <div class="slide-content">
+    <p class="section-label">03 — Primary Bottlenecks</p>
+    <h2 class="slide-title">What's Holding Us Back</h2>
+    <div class="bottleneck-grid">
+      <div class="bottleneck-card">
+        <div class="bottleneck-icon"></div>
+        <h3 class="bottleneck-title">Operations</h3>
+        <ul class="bottleneck-items">
+          <li>Bosta & Paymob integration incomplete</li>
+          <li>Limited production quantities (QT) across SKUs</li>
+          <li>No clear communications — everything takes too long</li>
+        </ul>
+      </div>
+      <div class="bottleneck-card">
+        <div class="bottleneck-icon"></div>
+        <h3 class="bottleneck-title">Product Pages</h3>
+        <ul class="bottleneck-items">
+          <li>Size chart gaps causing purchase hesitation</li>
+          <li>Return policy not clearly visible or communicated</li>
+        </ul>
+      </div>
+      <div class="bottleneck-card">
+        <div class="bottleneck-icon"></div>
+        <h3 class="bottleneck-title">Ads & Creatives</h3>
+        <ul class="bottleneck-items">
+          <li>Unstructured campaigns lacking focus</li>
+          <li>Inconsistent creatives due to missing fabric and stock information</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 — CATEGORIES -->
+<section id="slide-categories" class="slide">
+  <div class="slide-content">
+    <p class="section-label">04 — Top Performing Categories</p>
+    <h2 class="slide-title">Focus for Scale</h2>
+    <div class="categories-grid">
+      <div class="category-card">
+        <div class="category-image" style="background-image: url('https://vai-wear.com/cdn/shop/files/SABRY112967-copy.jpg?v=1768309898&width=800')"></div>
+        <div class="category-info">
+          <h3 class="category-name">Trousers</h3>
+          <p class="category-desc">High purchase intent — strong visual fit for styling content and retargeting creatives. Lead SKU for conversion campaigns.</p>
+        </div>
+      </div>
+      <div class="category-card">
+        <div class="category-image" style="background-image: url('https://vai-wear.com/cdn/shop/files/SABRY113283-copy.jpg?v=1768132141&width=800')"></div>
+        <div class="category-info">
+          <h3 class="category-name">Skirts</h3>
+          <p class="category-desc">Clear product-market fit. Quick wins available through outfit reels and lookbook content that showcases versatility.</p>
+        </div>
+      </div>
+      <div class="category-card">
+        <div class="category-image" style="background-image: url('https://vai-wear.com/cdn/shop/files/SABRY112858-copy.jpg?v=1768306807&width=800')"></div>
+        <div class="category-info">
+          <h3 class="category-name">Blazers</h3>
+          <p class="category-desc">Premium potential — prime SKU to test margin-focused messaging. Fabric storytelling and value positioning is key here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — GROWTH -->
+<section id="slide-growth" class="slide">
+  <div class="slide-content">
+    <p class="section-label">05 — Growth Opportunity</p>
+    <h2 class="slide-title">What Unlocks Scale</h2>
+    <blockquote class="growth-text">
+      With predictable stock data + new content creatives + tactical ad structure, we can scale to EGP 150K+/month.
+    </blockquote>
+    <div class="chart-container">
+      <div class="chart-bars" id="chartBars">
+        <div class="chart-bar-wrap">
+          <div class="chart-bar chart-bar-1" data-height="55" id="bar1">
+            <span class="bar-value" id="val1">EGP 20K</span>
+          </div>
+          <span class="chart-label">Current</span>
+        </div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar chart-bar-2" data-height="115" id="bar2">
+            <span class="bar-value" id="val2">EGP 60K</span>
+          </div>
+          <span class="chart-label">Month 1</span>
+        </div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar chart-bar-3" data-height="185" id="bar3">
+            <span class="bar-value" id="val3">EGP 150K+</span>
+          </div>
+          <span class="chart-label">Month 3</span>
+        </div>
+      </div>
+      <div class="chart-baseline"></div>
+      <p style="margin-top:16px; font-size:12px; color: var(--light-grey); letter-spacing:1px;">Conservative progression assumes fixes to creatives, stock transparency, and ad discipline.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 — CREATIVE -->
+<section id="slide-creative" class="slide">
+  <div class="slide-content">
+    <p class="section-label">06 — Creative Strategy</p>
+    <h2 class="slide-title">Priority Playbook</h2>
+    <div class="creative-grid">
+      <div class="creative-card">
+        <span class="creative-number">01</span>
+        <h3 class="creative-title">Fabric Storytelling</h3>
+        <p class="creative-desc">Close-up texture clips, why-it's-premium messaging, and care instructions — converting skeptics into buyers by making the quality tangible.</p>
+      </div>
+      <div class="creative-card">
+        <span class="creative-number">02</span>
+        <h3 class="creative-title">Fit & Size Content</h3>
+        <p class="creative-desc">Short fit explainer videos paired with clear, visible size charts and a transparent return policy to eliminate hesitation at the decision point.</p>
+      </div>
+      <div class="creative-card">
+        <span class="creative-number">03</span>
+        <h3 class="creative-title">Styling Breakdowns</h3>
+        <p class="creative-desc">3–5 outfit ideas per SKU to increase average order value and drive cross-category discovery between trousers, blazers, and skirts.</p>
+      </div>
+      <div class="creative-card">
+        <span class="creative-number">04</span>
+        <h3 class="creative-title">Value Positioning</h3>
+        <p class="creative-desc">"Why this blazer is different" — benefit-led messaging that goes beyond aesthetics into pricing justification and material differentiation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 — AD STRUCTURE -->
+<section id="slide-ads" class="slide">
+  <div class="slide-content">
+    <p class="section-label">07 — Ad Structure</p>
+    <h2 class="slide-title">Tactical Fixes</h2>
+    <div class="funnel-steps">
+      <div class="funnel-step">
+        <div class="funnel-step-num">01</div>
+        <h3 class="funnel-step-title">Prospecting — Broad Interest</h3>
+        <p class="funnel-step-desc">Test creative concepts and audiences with low-budget experiments. Lean on content collaborations to seed top-of-funnel awareness efficiently.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-step-num">02</div>
+        <h3 class="funnel-step-title">Retargeting — Website & IG Viewers</h3>
+        <p class="funnel-step-desc">SKU-specific ads with product clips and fit proof served to warm audiences who have already engaged with the brand organically.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-step-num">03</div>
+        <h3 class="funnel-step-title">Scale — Allocate to Winners</h3>
+        <p class="funnel-step-desc">Increase budget only on proven SKUs, validated creatives, and confirmed available fabric. No scaling ahead of supply certainty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 — ACTION PLAN -->
+<section id="slide-action" class="slide">
+  <div class="slide-content">
+    <p class="section-label">08 — Immediate Action Plan</p>
+    <h2 class="slide-title">Next Steps</h2>
+    <div class="action-grid">
+      <div class="action-card">
+        <span class="action-step">Supply Audit</span>
+        <h3 class="action-title">Fabric & Stock Clarity</h3>
+        <p class="action-desc">Send exact fabric QT, size chart, care instructions, and returns policy to unblock content and ad creation immediately.</p>
+      </div>
+      <div class="action-card">
+        <span class="action-step">Creative Sprint</span>
+        <h3 class="action-title">Content Production</h3>
+        <p class="action-desc">Produce fabric close-ups, fit clips, and 3–5 styling reels for the top 3 SKUs. Run in parallel with supply audit.</p>
+      </div>
+      <div class="action-card">
+        <span class="action-step">Product Pages</span>
+        <h3 class="action-title">Page Refresh</h3>
+        <p class="action-desc">Update copy, add size guidance, clarify returns policy, and ensure all product details are complete and conversion-optimised.</p>
+      </div>
+      <div class="action-card">
+        <span class="action-step">Ads Rebuild</span>
+        <h3 class="action-title">Meta Reconfiguration</h3>
+        <p class="action-desc">Reconfigure Meta with SKU-specific funnels, retargeting lists, and scale rules. No broad spending until structure is in place.</p>
+      </div>
+    </div>
+    <div class="action-note">
+      <p><strong>Priority directive:</strong> Start supply and creative tasks in parallel — operations and content are the biggest accelerants. Prioritise top 3 SKUs for immediate spend increase after day 7.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10 — END -->
+<section id="slide-end" class="slide">
+  <div class="end-logo">VAÏ</div>
+  <div class="end-divider"></div>
+  <p class="end-subtitle">Conservative Projection — Month by Month</p>
+  <div class="end-projection">
+    <div class="proj-item">
+      <span class="proj-num">EGP 20K</span>
+      <span class="proj-label">Current</span>
+    </div>
+    <div class="proj-arrow">→</div>
+    <div class="proj-item">
+      <span class="proj-num">EGP 60K</span>
+      <span class="proj-label">Month 1</span>
+    </div>
+    <div class="proj-arrow">→</div>
+    <div class="proj-item">
+      <span class="proj-num highlight">EGP 150K+</span>
+      <span class="proj-label">Month 3</span>
+    </div>
+  </div>
+  <p class="end-tagline">Solid ops, stock transparency, and SKU-led paid funnels that compound with organic social proof.</p>
+</section>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+  });
+
+  // Slide reveal on scroll
+  const slides = document.querySelectorAll('.slide');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  slides.forEach(slide => {
+    if (slide.id !== 'slide-cover') observer.observe(slide);
+  });
+
+  // Counter animation
+  function animateCounter(el, target, duration = 1500) {
+    const start = 0;
+    const startTime = performance.now();
+    const isFloat = !Number.isInteger(target);
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = isFloat ? (start + (target - start) * eased).toFixed(2) : Math.round(start + (target - start) * eased);
+      el.textContent = el.dataset.prefix ? el.dataset.prefix + current.toLocaleString() : current.toLocaleString() + (el.dataset.suffix || '');
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  // Trigger counters when metrics slide visible
+  const metricsSlide = document.getElementById('slide-metrics');
+  let countersRun = false;
+  const counterObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !countersRun) {
+      countersRun = true;
+      document.querySelectorAll('[data-target]').forEach(el => {
+        animateCounter(el, parseFloat(el.dataset.target));
+      });
+    }
+  }, { threshold: 0.3 });
+  counterObserver.observe(metricsSlide);
+
+  // Chart animation
+  const growthSlide = document.getElementById('slide-growth');
+  let chartRun = false;
+  const chartObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !chartRun) {
+      chartRun = true;
+      setTimeout(() => {
+        document.getElementById('bar1').style.height = '55px';
+        document.getElementById('val1').classList.add('show');
+      }, 200);
+      setTimeout(() => {
+        document.getElementById('bar2').style.height = '115px';
+        document.getElementById('val2').classList.add('show');
+      }, 500);
+      setTimeout(() => {
+        document.getElementById('bar3').style.height = '185px';
+        document.getElementById('val3').classList.add('show');
+      }, 800);
+    }
+  }, { threshold: 0.3 });
+  chartObserver.observe(growthSlide);
+</script>
+</body>
+</html>
