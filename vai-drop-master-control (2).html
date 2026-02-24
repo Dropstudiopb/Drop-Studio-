@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAÏ — Drop Master Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== VAÏ BRAND SYSTEM — ZARA/MANGO AESTHETIC ===== */
+:root {
+  --white: #ffffff;
+  --offwhite: #f8f7f5;
+  --light: #f0eeeb;
+  --border: #e0ddd9;
+  --border2: #ccc9c4;
+  --text: #1a1a1a;
+  --text2: #555;
+  --text3: #999;
+  --accent: #1a1a1a;
+  --gold: #8a6a3a;
+  --gold-light: #c9a96e;
+  --red: #c0392b;
+  --green: #27ae60;
+  --shadow: 0 1px 3px rgba(0,0,0,.06);
+  --shadow2: 0 4px 16px rgba(0,0,0,.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--offwhite);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--light); }
+::-webkit-scrollbar-thumb { background: var(--border2); }
+
+/* ===== MASTHEAD ===== */
+.mast {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  height: 64px;
+  box-shadow: var(--shadow);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.brand-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: .22em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.brand-tag {
+  font-size: 8px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 500;
+}
+
+.mast-center {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 500;
+}
+
+.mast-actions { display: flex; gap: 8px; align-items: center; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 9px 18px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+}
+.btn-outline:hover { border-color: var(--text); color: var(--text); }
+
+.btn-dark {
+  background: var(--text);
+  color: var(--white);
+}
+.btn-dark:hover { background: #333; }
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 9px;
+}
+
+.btn-danger {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  padding: 5px 10px;
+  font-size: 9px;
+}
+.btn-danger:hover { border-color: var(--red); color: var(--red); }
+
+.btn-add {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px dashed var(--border2);
+  color: var(--text3);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s;
+  margin-top: 10px;
+}
+.btn-add:hover { border-color: var(--text); color: var(--text); background: var(--light); }
+
+/* ===== SUMMARY BAR ===== */
+.sumbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  gap: 0;
+}
+
+.scard {
+  flex: 1;
+  padding: 16px 20px 14px;
+  border-right: 1px solid var(--border);
+  position: relative;
+  transition: background .2s;
+}
+.scard:last-child { border-right: none; }
+.scard:hover { background: var(--offwhite); }
+
+.sc-label {
+  font-size: 8px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.sc-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1;
+}
+
+.sc-sub {
+  font-size: 9px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.mbar { height: 2px; background: var(--border); margin-top: 6px; overflow: hidden; }
+.mfill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold-light), var(--green)); transition: width .5s; }
+
+/* ===== LAYOUT ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: calc(100vh - 118px);
+}
+
+/* ===== SIDE NAV ===== */
+.sidenav {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 32px 0;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+.nav-group-label {
+  font-size: 8px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 600;
+  padding: 0 20px 10px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 20px;
+  cursor: pointer;
+  transition: all .15s;
+  border-left: 2px solid transparent;
+  color: var(--text3);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+}
+.nav-item:hover { color: var(--text); background: var(--offwhite); }
+.nav-item.active { color: var(--text); border-left-color: var(--text); background: var(--light); }
+
+.nav-num {
+  font-size: 9px;
+  color: var(--border2);
+  font-weight: 600;
+  min-width: 16px;
+}
+.nav-item.active .nav-num { color: var(--text3); }
+
+/* ===== CONTENT AREA ===== */
+.content {
+  padding: 36px 48px;
+  max-width: 960px;
+}
+
+/* ===== SECTIONS ===== */
+.fsec { display: none; }
+.fsec.active { display: block; }
+
+.sec-header {
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--text);
+}
+
+.sec-eyebrow {
+  font-size: 8px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: .02em;
+}
+
+/* ===== FORM FIELDS ===== */
+.fgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+.fgrid.c3 { grid-template-columns: repeat(3, 1fr); }
+.fgrid.c1 { grid-template-columns: 1fr; }
+.span2 { grid-column: span 2; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 600;
+}
+
+label .req { color: var(--gold); margin-left: 2px; }
+
+input[type=text],
+input[type=number],
+input[type=date],
+input[type=email],
+select,
+textarea {
+  background: var(--white);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 10px 13px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+input[type=text]:focus,
+input[type=number]:focus,
+input[type=date]:focus,
+input[type=email]:focus,
+select:focus {
+  border-color: var(--text);
+  box-shadow: 0 0 0 2px rgba(26,26,26,.06);
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: auto;
+  opacity: 1;
+}
+
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+select option { background: white; color: var(--text); }
+
+/* AUTO-CALC fields */
+.ac {
+  background: var(--light) !important;
+  border: 1px dashed var(--border2) !important;
+  color: var(--gold) !important;
+  cursor: not-allowed;
+  font-weight: 600 !important;
+}
+
+/* ===== DESIGN CARDS ===== */
+.design-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.design-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.design-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: .03em;
+}
+
+/* ===== SKU TABLE ===== */
+.tbl-wrap { overflow-x: auto; margin-bottom: 8px; }
+
+.sku-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.sku-tbl th {
+  font-size: 8px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 600;
+  padding: 10px 10px;
+  text-align: left;
+  border-bottom: 2px solid var(--border);
+  background: var(--light);
+  white-space: nowrap;
+}
+
+.sku-tbl td {
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.sku-tbl tr:hover td { background: var(--offwhite); }
+
+.sku-tbl input[type=text],
+.sku-tbl input[type=number],
+.sku-tbl select {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 4px 5px;
+  font-size: 11px;
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  outline: none;
+  -webkit-appearance: auto;
+  appearance: auto;
+}
+
+.sku-tbl input[type=number] {
+  -webkit-appearance: auto;
+  appearance: auto;
+}
+
+.sku-tbl input:focus, .sku-tbl select:focus {
+  border-bottom-color: var(--text);
+  background: transparent;
+  box-shadow: none;
+}
+
+.size-checks { display: flex; gap: 5px; flex-wrap: wrap; }
+.size-chk { display: flex; align-items: center; gap: 3px; font-size: 10px; color: var(--text2); cursor: pointer; }
+.size-chk input[type=checkbox] { width: 13px; height: 13px; accent-color: var(--text); cursor: pointer; }
+
+/* ===== SIZE CHART ===== */
+.chart-tbl { width: 100%; border-collapse: collapse; background: var(--white); box-shadow: var(--shadow); }
+.chart-tbl th {
+  font-size: 9px; letter-spacing: .12em; color: var(--text3); font-weight: 600;
+  padding: 10px 13px; text-align: left; background: var(--light); border: 1px solid var(--border);
+}
+.chart-tbl td { border: 1px solid var(--border); padding: 3px 4px; }
+.chart-tbl input {
+  border: none; background: transparent; min-width: 60px; font-size: 11px;
+  padding: 5px 6px; color: var(--text); font-family: 'Montserrat', sans-serif; outline: none; width: 100%;
+}
+.chart-tbl .sz-label {
+  text-align: center; font-weight: 600; font-size: 11px; color: var(--text); padding: 8px; background: var(--offwhite);
+}
+
+/* ===== TIMELINE ===== */
+.tline-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.flag-warn { font-size: 9px; color: var(--red); margin-top: 4px; display: none; font-weight: 500; }
+.flag-warn.on { display: flex; align-items: center; gap: 4px; }
+
+/* ===== ALERTS ===== */
+.alert {
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 11px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+.alert-warn { background: #fdf3f2; border: 1px solid #e8c4c0; color: var(--red); border-left: 3px solid var(--red); }
+.alert-ok { background: #f2faf5; border: 1px solid #b8dfca; color: var(--green); border-left: 3px solid var(--green); }
+
+/* ===== STATUS BADGE ===== */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 12px;
+  border: 1px solid;
+}
+.status-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* ===== EMAIL PREVIEW ===== */
+.email-preview {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 28px;
+  box-shadow: var(--shadow2);
+}
+
+.email-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--text);
+}
+
+.email-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  letter-spacing: .15em;
+  color: var(--text);
+}
+
+.email-subject-line {
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.ep-row {
+  display: flex;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.ep-row:last-child { border-bottom: none; }
+
+.ep-key {
+  color: var(--text3);
+  min-width: 200px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.ep-val { color: var(--text); font-weight: 500; }
+
+.ep-divider { border-top: 1px solid var(--border); margin: 8px 0; }
+
+/* ===== EMAIL INFO BOX ===== */
+.email-locked-box {
+  background: #fffbf5;
+  border: 1px solid #e8d5b0;
+  border-left: 3px solid var(--gold-light);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 11px;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== FILE UPLOAD ===== */
+.file-upload {
+  border: 1px dashed var(--border2);
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  background: var(--white);
+}
+.file-upload:hover { border-color: var(--text); background: var(--offwhite); }
+.file-upload input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; padding: 0; border: none; background: none;
+}
+.file-upload-label { color: var(--text3); font-size: 11px; font-weight: 500; }
+.file-name { color: var(--gold); margin-top: 8px; font-size: 11px; font-weight: 600; }
+
+.or-divider {
+  text-align: center;
+  color: var(--text3);
+  font-size: 9px;
+  letter-spacing: .2em;
+  font-weight: 600;
+  margin: 20px 0;
+  position: relative;
+}
+.or-divider::before, .or-divider::after {
+  content: ''; position: absolute; top: 50%; width: 44%; height: 1px; background: var(--border);
+}
+.or-divider::before { left: 0; }
+.or-divider::after { right: 0; }
+
+/* ===== SECTION FOOTER NAV ===== */
+.sec-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  margin-top: 32px;
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--text);
+  color: var(--white);
+  padding: 14px 20px;
+  font-size: 11px;
+  font-weight: 500;
+  z-index: 9999;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all .3s;
+  max-width: 320px;
+  box-shadow: var(--shadow2);
+  letter-spacing: .04em;
+}
+.toast.on { transform: translateY(0); opacity: 1; }
+.toast-title { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 3px; font-weight: 600; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .mast { padding: 0 16px; }
+  .mast-center { display: none; }
+  .sumbar { flex-wrap: wrap; padding: 0 16px; }
+  .scard { min-width: 50%; border-bottom: 1px solid var(--border); }
+  .layout { grid-template-columns: 1fr; }
+  .sidenav { display: none; }
+  .content { padding: 20px 16px; }
+  .fgrid { grid-template-columns: 1fr; }
+  .span2 { grid-column: span 1; }
+  .tline-grid { grid-template-columns: 1fr; }
+  .fgrid.c3 { grid-template-columns: 1fr 1fr; }
+  .brand-logo { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="mast">
+  <div class="brand">
+    <div class="brand-logo">VAÏ</div>
+    <div class="brand-tag">Internal Operations</div>
+  </div>
+  <div class="mast-center">Drop Master Control</div>
+  <div class="mast-actions">
+    <button class="btn btn-outline" onclick="doExport()">↓ Export CSV</button>
+    <button class="btn btn-outline" onclick="gotoSummary()">✉ Preview Report</button>
+    <button class="btn btn-dark" onclick="saveDrop()">Save &amp; Send Report</button>
+  </div>
+</header>
+
+<!-- SUMMARY BAR -->
+<div class="sumbar">
+  <div class="scard">
+    <div class="sc-label">Designs</div>
+    <div class="sc-val" id="SD">0</div>
+    <div class="sc-sub">this drop</div>
+  </div>
+  <div class="scard">
+    <div class="sc-label">Total SKUs</div>
+    <div class="sc-val" id="SS">0</div>
+    <div class="sc-sub">all designs</div>
+  </div>
+  <div class="scard">
+    <div class="sc-label">Total Units</div>
+    <div class="sc-val" id="SU">0</div>
+    <div class="sc-sub">produced</div>
+  </div>
+  <div class="scard">
+    <div class="sc-label">COGS Investment</div>
+    <div class="sc-val" id="SC">$0</div>
+    <div class="sc-sub">total cost</div>
+  </div>
+  <div class="scard">
+    <div class="sc-label">Revenue Potential</div>
+    <div class="sc-val" id="SR">$0</div>
+    <div class="sc-sub">Margin: <span id="SM" style="color:var(--gold)">—</span>
+      <div class="mbar"><div class="mfill" id="MF" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+
+  <!-- SIDE NAV -->
+  <nav class="sidenav">
+    <div class="nav-group-label">Sections</div>
+    <div class="nav-item active" onclick="gS('s1',this)"><span class="nav-num">01</span> Drop Info</div>
+    <div class="nav-item" onclick="gS('s2',this)"><span class="nav-num">02</span> Design Count</div>
+    <div class="nav-item" onclick="gS('s3',this)"><span class="nav-num">03</span> SKU &amp; Stock</div>
+    <div class="nav-item" onclick="gS('s4',this)"><span class="nav-num">04</span> Size Chart</div>
+    <div class="nav-item" onclick="gS('s5',this)"><span class="nav-num">05</span> Production</div>
+    <div class="nav-item" onclick="gS('s6',this)"><span class="nav-num">06</span> CEO Summary</div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="alert alert-ok" id="AOK">✓ Drop saved. Report dispatched to mohamedthesabry@gmail.com</div>
+
+    <!-- ===== S1: DROP INFO ===== -->
+    <section class="fsec active" id="s1">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Section 01</div>
+        <div class="sec-title">Drop Info</div>
+      </div>
+
+      <div class="fgrid">
+        <div class="field span2">
+          <label>Drop Name <span class="req">*</span></label>
+          <input type="text" id="F_NM" placeholder="e.g. Velvet Winter Edit 2026" oninput="upd()">
+        </div>
+        <div class="field">
+          <label>Season <span class="req">*</span></label>
+          <select id="F_SE">
+            <option value="">Select Season</option>
+            <option>SS25 — Spring/Summer</option>
+            <option>FW25 — Fall/Winter</option>
+            <option>SS26 — Spring/Summer</option>
+            <option>FW26 — Fall/Winter</option>
+            <option>Resort 2025</option>
+            <option>Resort 2026</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Launch Date <span class="req">*</span></label>
+          <input type="date" id="F_LD">
+        </div>
+        <div class="field span2">
+          <label>Drop Status <span class="req">*</span></label>
+          <select id="F_ST" onchange="rdBadge()">
+            <option value="">Select Status</option>
+            <option value="sampling">Sampling</option>
+            <option value="production">In Production</option>
+            <option value="ready">Ready</option>
+            <option value="live">Live</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="BDG"></div>
+
+      <div class="sec-footer">
+        <div></div>
+        <button class="btn btn-dark" onclick="gS('s2',nth(2))">Design Count →</button>
+      </div>
+    </section>
+
+    <!-- ===== S2: DESIGN COUNT ===== -->
+    <section class="fsec" id="s2">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Section 02</div>
+        <div class="sec-title">Design Count</div>
+      </div>
+
+      <div class="fgrid" style="margin-bottom:20px">
+        <div class="field">
+          <label>Total Designs (Auto)</label>
+          <input class="ac" id="CT_D" value="0" readonly>
+        </div>
+        <div class="field">
+          <label>Total SKUs (Auto)</label>
+          <input class="ac" id="CT_S" value="0" readonly>
+        </div>
+      </div>
+
+      <div id="DL"></div>
+      <button class="btn-add" onclick="addD()">+ Add Design</button>
+
+      <div class="sec-footer">
+        <button class="btn btn-outline" onclick="gS('s1',nth(1))">← Drop Info</button>
+        <button class="btn btn-dark" onclick="gS('s3',nth(3))">SKU &amp; Stock →</button>
+      </div>
+    </section>
+
+    <!-- ===== S3: SKU + STOCK ===== -->
+    <section class="fsec" id="s3">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Section 03</div>
+        <div class="sec-title">SKU &amp; Stock Details</div>
+      </div>
+
+      <div class="fgrid c3" style="margin-bottom:20px">
+        <div class="field">
+          <label>Total Units (Auto)</label>
+          <input class="ac" id="CT_U" value="0" readonly>
+        </div>
+        <div class="field">
+          <label>Inventory Value (Auto)</label>
+          <input class="ac" id="CT_I" value="$0.00" readonly>
+        </div>
+        <div class="field">
+          <label>Revenue Potential (Auto)</label>
+          <input class="ac" id="CT_R" value="$0.00" readonly>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="sku-tbl">
+          <thead>
+            <tr>
+              <th>SKU Code</th>
+              <th>Design</th>
+              <th>Color</th>
+              <th>Active Sizes</th>
+              <th>XS qty</th>
+              <th>S qty</th>
+              <th>M qty</th>
+              <th>L qty</th>
+              <th>XL qty</th>
+              <th>Total Units</th>
+              <th>COGS/unit</th>
+              <th>Sell Price</th>
+              <th>Eff. Price</th>
+              <th>Margin %</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="SB"></tbody>
+        </table>
+      </div>
+      <button class="btn-add" onclick="addSKU()">+ Add SKU Row</button>
+
+      <div class="sec-footer">
+        <button class="btn btn-outline" onclick="gS('s2',nth(2))">← Design Count</button>
+        <button class="btn btn-dark" onclick="gS('s4',nth(4))">Size Chart →</button>
+      </div>
+    </section>
+
+    <!-- ===== S4: SIZE CHART ===== -->
+    <section class="fsec" id="s4">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Section 04</div>
+        <div class="sec-title">Size Chart</div>
+      </div>
+
+      <div class="file-upload" id="FUP">
+        <input type="file" accept=".pdf,.jpg,.jpeg,.png,.xlsx" onchange="hFile(event)">
+        <div class="file-upload-label">↑ Drop size chart file here &nbsp;·&nbsp; PDF / Image / Excel</div>
+        <div class="file-name" id="FN"></div>
+      </div>
+
+      <div class="or-divider">OR ENTER MANUALLY</div>
+
+      <div class="tbl-wrap">
+        <table class="chart-tbl">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Bust (cm)</th>
+              <th>Waist (cm)</th>
+              <th>Hip (cm)</th>
+              <th>Length (cm)</th>
+              <th>Shoulder (cm)</th>
+              <th>Sleeve (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="sz-label">XS</td><td><input type="number" placeholder="78"></td><td><input type="number" placeholder="60"></td><td><input type="number" placeholder="84"></td><td><input type="number"></td><td><input type="number" placeholder="35"></td><td><input type="number" placeholder="59"></td></tr>
+            <tr><td class="sz-label">S</td><td><input type="number" placeholder="82"></td><td><input type="number" placeholder="64"></td><td><input type="number" placeholder="88"></td><td><input type="number"></td><td><input type="number" placeholder="36"></td><td><input type="number" placeholder="60"></td></tr>
+            <tr><td class="sz-label">M</td><td><input type="number" placeholder="86"></td><td><input type="number" placeholder="68"></td><td><input type="number" placeholder="92"></td><td><input type="number"></td><td><input type="number" placeholder="37"></td><td><input type="number" placeholder="61"></td></tr>
+            <tr><td class="sz-label">L</td><td><input type="number" placeholder="90"></td><td><input type="number" placeholder="72"></td><td><input type="number" placeholder="96"></td><td><input type="number"></td><td><input type="number" placeholder="38"></td><td><input type="number" placeholder="62"></td></tr>
+            <tr><td class="sz-label">XL</td><td><input type="number" placeholder="96"></td><td><input type="number" placeholder="78"></td><td><input type="number" placeholder="102"></td><td><input type="number"></td><td><input type="number" placeholder="40"></td><td><input type="number" placeholder="63"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-footer">
+        <button class="btn btn-outline" onclick="gS('s3',nth(3))">← SKU &amp; Stock</button>
+        <button class="btn btn-dark" onclick="gS('s5',nth(5))">Production →</button>
+      </div>
+    </section>
+
+    <!-- ===== S5: PRODUCTION ===== -->
+    <section class="fsec" id="s5">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Section 05</div>
+        <div class="sec-title">Production Tracking</div>
+      </div>
+
+      <div class="alert alert-warn" id="DA">⚠ Timeline issues detected. Review flagged fields below.</div>
+
+      <div class="tline-grid">
+        <div class="field">
+          <label>Sample Ready Date</label>
+          <input type="date" id="PR" onchange="chkD()">
+          <div class="flag-warn" id="FR">⚠ Date not set</div>
+        </div>
+        <div class="field">
+          <label>Sample Approved Date</label>
+          <input type="date" id="PA" onchange="chkD()">
+          <div class="flag-warn" id="FA">⚠ Date not set</div>
+        </div>
+        <div class="field">
+          <label>Production Start</label>
+          <input type="date" id="PS" onchange="chkD()">
+          <div class="flag-warn" id="FS">⚠ Date not set</div>
+        </div>
+        <div class="field">
+          <label>Production Finish</label>
+          <input type="date" id="PF" onchange="chkD()">
+          <div class="flag-warn" id="FF">⚠ Date not set</div>
+        </div>
+        <div class="field">
+          <label>Shoot Date</label>
+          <input type="date" id="PH" onchange="chkD()">
+          <div class="flag-warn" id="FH">⚠ Date not set</div>
+        </div>
+        <div class="field">
+          <label>Content Ready Date</label>
+          <input type="date" id="PC" onchange="chkD()">
+          <div class="flag-warn" id="FC">⚠ Date not set</div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px; padding-top:20px; border-top:1px solid var(--border)">
+        <div class="email-locked-box">
+          <span style="font-size:16px">🔒</span>
+          <div>
+            <div style="font-weight:600;letter-spacing:.04em">Report Email Locked</div>
+            <div style="margin-top:2px;color:var(--text2)">All reports are automatically sent to <strong>mohamedthesabry@gmail.com</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-footer">
+        <button class="btn btn-outline" onclick="gS('s4',nth(4))">← Size Chart</button>
+        <button class="btn btn-dark" onclick="gS('s6',nth(6)); bldPrev()">View CEO Summary →</button>
+      </div>
+    </section>
+
+    <!-- ===== S6: CEO SUMMARY ===== -->
+    <section class="fsec" id="s6">
+      <div class="sec-header">
+        <div class="sec-eyebrow">Section 06</div>
+        <div class="sec-title">CEO Summary</div>
+      </div>
+
+      <div class="fgrid" style="margin-bottom:20px">
+        <div class="field">
+          <label>Report Destination (Locked)</label>
+          <input type="email" value="mohamedthesabry@gmail.com" readonly style="background:var(--light);color:var(--gold);font-weight:600;border-style:dashed;">
+        </div>
+        <div class="field">
+          <label>Email Subject (Auto)</label>
+          <input class="ac" id="D_SB" readonly placeholder="auto-generated">
+        </div>
+      </div>
+
+      <div class="email-preview">
+        <div class="email-header">
+          <div>
+            <div class="email-brand">VAÏ</div>
+            <div class="email-subject-line" id="EP_SUBJ">Drop Report</div>
+          </div>
+          <div style="font-size:9px;color:var(--text3);text-align:right;font-weight:500;letter-spacing:.06em;text-transform:uppercase">
+            To: mohamedthesabry@gmail.com<br>
+            <span id="EP_DATE" style="color:var(--text3)"></span>
+          </div>
+        </div>
+        <div id="PV"></div>
+      </div>
+
+      <div class="sec-footer">
+        <button class="btn btn-outline" onclick="gS('s5',nth(5))">← Production</button>
+        <button class="btn btn-dark" onclick="saveDrop()">✓ Save &amp; Send Report</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="T">
+  <div class="toast-title">Report Sent</div>
+  <div id="TM">Summary dispatched.</div>
+</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+var designs = [], skus = [], dc = 0, sc = 0;
+var LOCKED_EMAIL = 'mohamedthesabry@gmail.com';
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function gS(id, el) {
+  document.querySelectorAll('.fsec').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  if (el) el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nth(n) { return document.querySelectorAll('.nav-item')[n - 1]; }
+
+// ============================================================
+// STATUS BADGE
+// ============================================================
+function rdBadge() {
+  var v = document.getElementById('F_ST').value;
+  var w = document.getElementById('BDG');
+  if (!v) { w.innerHTML = ''; return; }
+  var map = {
+    sampling:   { c: '#c0392b', bg: '#fdf3f2', label: 'Sampling' },
+    production: { c: '#8a6a3a', bg: '#fffbf5', label: 'In Production' },
+    ready:      { c: '#27ae60', bg: '#f2faf5', label: 'Ready' },
+    live:       { c: '#1a1a1a', bg: '#f5f5f5', label: 'Live' }
+  };
+  var m = map[v];
+  w.innerHTML = '<div class="status-badge" style="border-color:' + m.c + ';color:' + m.c + ';background:' + m.bg + '">'
+    + '<span class="status-dot" style="background:' + m.c + '"></span>' + m.label + '</div>';
+}
+
+function upd() {
+  document.getElementById('SD').textContent = designs.length;
+}
+
+// ============================================================
+// DESIGNS
+// ============================================================
+function addD() {
+  dc++;
+  var id = 'D' + dc;
+  designs.push({ id: id });
+  var div = document.createElement('div');
+  div.className = 'design-card';
+  div.id = 'dc-' + id;
+  div.innerHTML =
+    '<div class="design-card-header">'
+    + '<div class="design-card-title">Design ' + dc + '</div>'
+    + '<button class="btn btn-sm btn-danger" onclick="rmD(\'' + id + '\')">Remove</button>'
+    + '</div>'
+    + '<div class="fgrid c3">'
+    + '<div class="field"><label>Design Name <span class="req">*</span></label>'
+    + '<input type="text" id="' + id + 'N" placeholder="e.g. Velvet Blazer" oninput="synD(\'' + id + '\')"></div>'
+    + '<div class="field"><label>Category</label>'
+    + '<select id="' + id + 'C"><option>Blazer</option><option>Shirt</option><option>Skirt</option><option>Trousers</option><option>Dress</option><option>Jacket</option><option>Coat</option><option>Top</option><option>Jumpsuit</option><option>Shorts</option><option>Other</option></select></div>'
+    + '<div class="field"><label>Gender</label>'
+    + '<select id="' + id + 'G"><option>Women</option><option>Unisex</option></select></div>'
+    + '<div class="field"><label>SKUs for this Design (Auto)</label>'
+    + '<input class="ac" id="' + id + 'SK" value="0" readonly></div>'
+    + '</div>';
+  document.getElementById('DL').appendChild(div);
+  rfCalc();
+}
+
+function rmD(id) {
+  designs = designs.filter(function(d) { return d.id !== id; });
+  var el = document.getElementById('dc-' + id);
+  if (el) el.remove();
+  rfCalc();
+}
+
+function synD(id) { rfDrp(); rfCalc(); }
+
+function rfDrp() {
+  document.querySelectorAll('.dsel').forEach(function(sel) {
+    var cur = sel.value;
+    sel.innerHTML = '<option value="">— Select Design —</option>';
+    designs.forEach(function(d) {
+      var nm = document.getElementById(d.id + 'N');
+      if (nm && nm.value) {
+        var o = document.createElement('option');
+        o.value = nm.value;
+        o.textContent = nm.value;
+        sel.appendChild(o);
+      }
+    });
+    sel.value = cur;
+  });
+}
+
+// ============================================================
+// SKUs
+// ============================================================
+function addSKU() {
+  sc++;
+  var id = 'K' + sc;
+  skus.push({ id: id });
+  var tb = document.getElementById('SB');
+  var tr = document.createElement('tr');
+  tr.id = 'sr-' + id;
+
+  // size qty inputs
+  var sizes = ['XS', 'S', 'M', 'L', 'XL'];
+  var sizeInputs = sizes.map(function(s) {
+    return '<td><input type="number" id="' + id + 'Q' + s + '" placeholder="0" min="0" style="width:48px" oninput="cU(\'' + id + '\')" onchange="cU(\'' + id + '\')"></td>';
+  }).join('');
+
+  var sizeChecks = '<div class="size-checks">'
+    + sizes.map(function(s) {
+      return '<label class="size-chk"><input type="checkbox" id="' + id + 'C' + s + '" onchange="cU(\'' + id + '\')">' + s + '</label>';
+    }).join('')
+    + '</div>';
+
+  tr.innerHTML =
+    '<td><input type="text" id="' + id + 'CO" placeholder="VAI-001" style="min-width:88px"></td>'
+    + '<td><select class="dsel" id="' + id + 'DS" style="min-width:110px"><option value="">— Select —</option></select></td>'
+    + '<td><input type="text" id="' + id + 'CL" placeholder="Black" style="min-width:70px"></td>'
+    + '<td>' + sizeChecks + '</td>'
+    + sizeInputs
+    + '<td><input class="ac" id="' + id + 'TO" value="0" readonly style="width:55px"></td>'
+    + '<td><input type="number" id="' + id + 'CG" placeholder="0.00" min="0" step="0.01" oninput="rcF()" style="width:68px"></td>'
+    + '<td><input type="number" id="' + id + 'PR" placeholder="0.00" min="0" step="0.01" oninput="rcF()" style="width:68px"></td>'
+    + '<td><input type="number" id="' + id + 'EP" placeholder="0.00" min="0" step="0.01" oninput="rcF()" style="width:68px"></td>'
+    + '<td><input class="ac" id="' + id + 'MG" value="—" readonly style="width:55px"></td>'
+    + '<td><button class="btn btn-sm btn-danger" onclick="rmSKU(\'' + id + '\')">✕</button></td>';
+
+  tb.appendChild(tr);
+  rfDrp();
+  rfCalc();
+}
+
+function rmSKU(id) {
+  skus = skus.filter(function(s) { return s.id !== id; });
+  var r = document.getElementById('sr-' + id);
+  if (r) r.remove();
+  rcF();
+}
+
+function cU(id) {
+  var tot = 0;
+  ['XS', 'S', 'M', 'L', 'XL'].forEach(function(s) {
+    var chk = document.getElementById(id + 'C' + s);
+    var qty = document.getElementById(id + 'Q' + s);
+    if (chk && chk.checked && qty) tot += parseInt(qty.value) || 0;
+  });
+  var el = document.getElementById(id + 'TO');
+  if (el) el.value = tot;
+  rcF();
+}
+
+// ============================================================
+// CALCULATIONS
+// ============================================================
+function rfCalc() {
+  sV('CT_D', designs.length);
+  sV('CT_S', document.querySelectorAll('#SB tr').length);
+  document.getElementById('SD').textContent = designs.length;
+  document.getElementById('SS').textContent = document.querySelectorAll('#SB tr').length;
+  rcF();
+}
+
+function rcF() {
+  var rows = document.querySelectorAll('#SB tr');
+  var tu = 0, tc = 0, tr2 = 0;
+
+  rows.forEach(function(row) {
+    var id = row.id.replace('sr-', '');
+    var u = parseInt(gV(id + 'TO')) || 0;
+    var cg = parseFloat(gV(id + 'CG')) || 0;
+    var ep = parseFloat(gV(id + 'EP')) || parseFloat(gV(id + 'PR')) || 0;
+    tu += u;
+    tc += u * cg;
+    tr2 += u * ep;
+
+    // Per-SKU margin
+    var mg = document.getElementById(id + 'MG');
+    if (mg && ep > 0 && cg >= 0) {
+      if (ep > 0) {
+        var mv = ((ep - cg) / ep * 100).toFixed(1);
+        mg.value = mv + '%';
+        mg.style.color = mv < 30 ? 'var(--red)' : mv < 55 ? 'var(--gold)' : 'var(--green)';
+      }
+    }
+  });
+
+  // Per-design SKU count
+  designs.forEach(function(d) {
+    var nm = gV(d.id + 'N');
+    var cnt = 0;
+    rows.forEach(function(row) {
+      var id2 = row.id.replace('sr-', '');
+      var ds = document.getElementById(id2 + 'DS');
+      if (ds && nm && ds.value === nm) cnt++;
+    });
+    sV(d.id + 'SK', cnt);
+  });
+
+  var sc2 = rows.length;
+  sV('CT_D', designs.length);
+  sV('CT_S', sc2);
+  sV('CT_U', tu);
+  sV('CT_I', '$' + fmt(tc));
+  sV('CT_R', '$' + fmt(tr2));
+
+  document.getElementById('SD').textContent = designs.length;
+  document.getElementById('SS').textContent = sc2;
+  document.getElementById('SU').textContent = tu.toLocaleString();
+  document.getElementById('SC').textContent = '$' + abbr(tc);
+  document.getElementById('SR').textContent = '$' + abbr(tr2);
+
+  var mg = tr2 > 0 ? ((tr2 - tc) / tr2 * 100) : 0;
+  document.getElementById('SM').textContent = mg.toFixed(1) + '%';
+  document.getElementById('MF').style.width = Math.min(mg, 100) + '%';
+}
+
+function gV(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+function sV(id, v) { var e = document.getElementById(id); if (e) e.value = v; }
+function fmt(n) { return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function abbr(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+  return n.toFixed(0);
+}
+
+// ============================================================
+// DELAY CHECK
+// ============================================================
+function chkD() {
+  var flds = [['PR','FR'],['PA','FA'],['PS','FS'],['PF','FF'],['PH','FH'],['PC','FC']];
+  var bad = false;
+  flds.forEach(function(f) {
+    var v = document.getElementById(f[0]).value;
+    var fl = document.getElementById(f[1]);
+    if (!v) { fl.textContent = '⚠ Date not set'; fl.classList.add('on'); bad = true; }
+    else { fl.classList.remove('on'); }
+  });
+  var sr = document.getElementById('PR').value;
+  var sa = document.getElementById('PA').value;
+  var ps2 = document.getElementById('PS').value;
+  var pf = document.getElementById('PF').value;
+  var ld = document.getElementById('F_LD').value;
+  if (sr && sa && new Date(sa) < new Date(sr)) {
+    document.getElementById('FA').textContent = '⚠ Approved before Ready — check dates';
+    document.getElementById('FA').classList.add('on'); bad = true;
+  }
+  if (sa && ps2 && new Date(ps2) < new Date(sa)) {
+    document.getElementById('FS').textContent = '⚠ Production starts before approval';
+    document.getElementById('FS').classList.add('on'); bad = true;
+  }
+  if (pf && ld && new Date(pf) > new Date(ld)) {
+    document.getElementById('FF').textContent = '⚠ Production finishes AFTER launch!';
+    document.getElementById('FF').classList.add('on'); bad = true;
+  }
+  document.getElementById('DA').style.display = bad ? 'flex' : 'none';
+}
+
+// ============================================================
+// EMAIL PREVIEW
+// ============================================================
+function bldPrev() {
+  var nm = gV('F_NM') || '—';
+  var subj = 'VAÏ Drop Report — ' + nm + ' Updated';
+  sV('D_SB', subj);
+
+  var epSubj = document.getElementById('EP_SUBJ');
+  if (epSubj) epSubj.textContent = subj;
+
+  var epDate = document.getElementById('EP_DATE');
+  if (epDate) epDate.textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  var rows = document.querySelectorAll('#SB tr');
+  var tu = 0, tc = 0, tr2 = 0;
+  rows.forEach(function(row) {
+    var id = row.id.replace('sr-', '');
+    var u = parseInt(gV(id + 'TO')) || 0;
+    var cg = parseFloat(gV(id + 'CG')) || 0;
+    var ep = parseFloat(gV(id + 'EP')) || parseFloat(gV(id + 'PR')) || 0;
+    tu += u; tc += u * cg; tr2 += u * ep;
+  });
+
+  var sc2 = rows.length;
+  var mg = tr2 > 0 ? ((tr2 - tc) / tr2 * 100).toFixed(1) : '0.0';
+  var acg = sc2 > 0 ? (tc / sc2).toFixed(2) : '0.00';
+  var pstat = gV('PF') ? 'Production dates recorded' : 'Pending';
+
+  var data = [
+    ['DROP DETAILS', null],
+    ['Drop Name', nm],
+    ['Season', gV('F_SE') || '—'],
+    ['Launch Date', gV('F_LD') || '—'],
+    ['Status', gV('F_ST') || '—'],
+    ['div', null],
+    ['INVENTORY SUMMARY', null],
+    ['Total Designs', designs.length],
+    ['Total SKUs', sc2],
+    ['Total Units Produced', tu.toLocaleString()],
+    ['div', null],
+    ['FINANCIALS', null],
+    ['Total COGS Investment', '$' + fmt(tc)],
+    ['Total Revenue Potential', '$' + fmt(tr2)],
+    ['Average COGS per SKU', '$' + acg],
+    ['Gross Margin %', mg + '%'],
+    ['div', null],
+    ['Production Status', pstat],
+  ];
+
+  var html = '';
+  data.forEach(function(r) {
+    if (r[0] === 'div') {
+      html += '<div class="ep-divider"></div>';
+    } else if (r[1] === null) {
+      html += '<div style="font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);font-weight:700;padding:10px 0 4px;margin-top:4px">' + r[0] + '</div>';
+    } else {
+      html += '<div class="ep-row"><span class="ep-key">' + r[0] + '</span><span class="ep-val">' + r[1] + '</span></div>';
+    }
+  });
+  document.getElementById('PV').innerHTML = html;
+}
+
+function gotoSummary() { bldPrev(); gS('s6', nth(6)); }
+
+// ============================================================
+// SAVE & SEND
+// ============================================================
+function saveDrop() {
+  bldPrev();
+  var nm = gV('F_NM') || 'Unnamed Drop';
+  var ok = document.getElementById('AOK');
+  ok.style.display = 'flex';
+  setTimeout(function() { ok.style.display = 'none'; }, 6000);
+  showT('Report sent to ' + LOCKED_EMAIL);
+}
+
+function showT(msg, err) {
+  var t = document.getElementById('T');
+  document.getElementById('TM').textContent = msg;
+  t.style.borderLeft = '3px solid ' + (err ? 'var(--red)' : 'var(--gold-light)');
+  t.classList.add('on');
+  setTimeout(function() { t.classList.remove('on'); }, 5000);
+}
+
+// ============================================================
+// FILE UPLOAD
+// ============================================================
+function hFile(e) {
+  var f = e.target.files[0];
+  if (f) document.getElementById('FN').textContent = '✓ Attached: ' + f.name;
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
+function doExport() {
+  var nm = gV('F_NM') || 'drop';
+  var rows = document.querySelectorAll('#SB tr');
+  var csv = 'VAI Drop Export\r\n';
+  csv += 'Drop Name,' + nm + '\r\n';
+  csv += 'Season,' + gV('F_SE') + '\r\n';
+  csv += 'Launch,' + gV('F_LD') + '\r\n';
+  csv += 'Status,' + gV('F_ST') + '\r\n\r\n';
+  csv += 'SKU Code,Design,Color,XS,S,M,L,XL,Total Units,COGS/Unit,Sell Price,Eff. Price,Margin %\r\n';
+  rows.forEach(function(row) {
+    var id = row.id.replace('sr-', '');
+    csv += [
+      gV(id + 'CO'), gV(id + 'DS'), gV(id + 'CL'),
+      gV(id + 'QXS'), gV(id + 'QS'), gV(id + 'QM'), gV(id + 'QL'), gV(id + 'QXL'),
+      gV(id + 'TO'), gV(id + 'CG'), gV(id + 'PR'), gV(id + 'EP'), gV(id + 'MG')
+    ].join(',') + '\r\n';
+  });
+  var b = new Blob([csv], { type: 'text/csv' });
+  var u = URL.createObjectURL(b);
+  var a = document.createElement('a');
+  a.href = u;
+  a.download = 'VAI-Drop-' + nm.replace(/\s+/g, '-') + '.csv';
+  a.click();
+  URL.revokeObjectURL(u);
+  showT('CSV exported successfully');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+addD();
+addSKU();
+</script>
+</body>
+</html>
